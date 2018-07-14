@@ -1,3 +1,6 @@
+const MongoClient = require('mongodb').MongoClient,
+    url = 'mongodb://127.0.0.1:27017'
+
 //for connecting to the database
 function testConnection(dbName) {
     return new Promise(function (resolve, reject) {
@@ -8,16 +11,16 @@ function testConnection(dbName) {
                 reject(err);
             }
             var dbConnection = conn.db(dbName);
-            resolve(dbConnection)
+            resolve(dbConnection);
         })
     }).catch(function (e) {})
 }
 
 //question1
 function getMatchesPerYear(matches) {
-    return new Promise(async (resolve, reject) => {
-        const db1=await testConnection("test")//.then(async function (db1,err) {
-            // if(err) reject(err);
+    return new Promise((resolve, reject) => {
+        testConnection("test").then(async function (db1, err) {
+            if (err) reject(err)
             var data = await db1.collection(matches)
             var match = await data.aggregate([{
                 $group: {
@@ -27,8 +30,9 @@ function getMatchesPerYear(matches) {
                     }
                 }
             }]).toArray();
+            // console.log(match)
             resolve(match);
-       // })
+        })
     }).catch(function (e) {})
 }
 
@@ -48,13 +52,14 @@ function getWonMatchesPerTeamPerYear(matches) {
                     }
                 }
             }]).toArray()
+            // console.log(match)
             resolve(match)
         })
     }).catch(function (e) {})
 }
 
 //question3
-function getMatchesPerTeamPerYear(matches) {
+function getExtraRunsPerTeam(matches,year) {
     return new Promise((resolve, reject) => {
         // console.log(matches);
         testConnection("test").then(async function (db1) {
@@ -62,7 +67,7 @@ function getMatchesPerTeamPerYear(matches) {
             // console.log(data)
             var match = await data.aggregate([{
                     $match: {
-                        season: 2016
+                        season: year
                     }
                 },
                 {
@@ -86,19 +91,20 @@ function getMatchesPerTeamPerYear(matches) {
 
                 }
             ]).toArray();
+            // console.log(match)
             resolve(match);
         })
     }).catch(function (e) {})
 }
 
 //question4
-function getEconomyRate(matches, deliveries) {
+function getEconomyRate(matches, deliveries,year) {
     return new Promise((resolve, reject) => {
         testConnection("test").then(async function (db1) {
             var data = await db1.collection(matches)
             var economy = await data.aggregate([{
                     "$match": {
-                        "season": 2015
+                        "season": year
                     }
                 },
                 {
@@ -164,13 +170,13 @@ function getEconomyRate(matches, deliveries) {
 }
 
 //question5
-function getTopWicket(matches, deliveries) {
+function getTopWicket(matches, deliveries,year) {
     return new Promise((resolve, reject) => {
         testConnection("test").then(async function (db1) {
             var data = await db1.collection(matches)
             var bowlerWicket = await data.aggregate([{
                     "$match": {
-                        "season": 2015
+                        "season": year
                     }
                 },
                 {
@@ -217,21 +223,8 @@ function getTopWicket(matches, deliveries) {
                     }
                 }
             ]).toArray();
+            // console.log(bowlerWicket)
             resolve(bowlerWicket)
         })
     }).catch(function (e) {})
 }
-
-
-var matches = "testMatches",
-    deliveries = "testDeliveries"
-
-getMatchesPerYear(matches)
-
-getWonMatchesPerTeamPerYear(matches)
-
-getMatchesPerTeamPerYear(matches)
-
-getEconomyRate(matches, deliveries)
-
-getTopWicket(matches, deliveries)

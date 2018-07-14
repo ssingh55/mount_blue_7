@@ -3,10 +3,8 @@ var conn = require('./connection.js');
 
 function getWonMatchesPerTeamPerYear(matches, conn) {
         return new Promise((resolve, reject) => {
-                // console.log(matches);
                 conn.testConnection("test").then(async function (db1) {
                         var data = await db1.collection(matches)
-                        // console.log(data)
                         var match = await data.aggregate([{
                                 $group: {
                                         "_id": {
@@ -34,12 +32,13 @@ function getWonMatchesPerTeam(matches, conn) {
                                                 "$sum": 1
                                         }
                                 }
-                        }])
+                        }]).toArray();
+                        resolve(match)
                 })
         })
 }
 
 module.exports = {
-        getWonMatchesPerTeam
-        //getWonMatchesPerTeamPerYear
+        getWonMatchesPerTeam,
+        getWonMatchesPerTeamPerYear
 }
