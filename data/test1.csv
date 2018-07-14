@@ -1845,7 +1845,7 @@ match_id,inning,batting_team,bowling_team,over,ball,batsman,non_striker,bowler,i
 8,2,Kings XI Punjab,Royal Challengers Bangalore,7,6,HM Amla,AR Patel,YS Chahal,0,0,0,0,0,0,1,0,1,,,
 8,2,Kings XI Punjab,Royal Challengers Bangalore,8,1,HM Amla,AR Patel,Iqbal Abdulla,0,0,0,0,0,0,1,0,1,,,
 8,2,Kings XI Punjab,Royal Challengers Bangalore,8,2,AR Patel,HM Amla,Iqbal Abdulla,0,0,0,0,0,0,0,0,0,,,
-8,2,Kings XI Punjab,Royal Challengers Bangalore,8,3,AR Patel,HM Amla,Iqbal Abdulla,0,0,0,0,0,0,1,0,1,,,
+8,2,Kings XI Punjab,Royal Challengers Bangalore,8,3,AR Patel,HM Amla,Iqbal Abdulla,0,0,0,0,0,0,1,1,2,,,
 8,2,Kings XI Punjab,Royal Challengers Bangalore,8,4,HM Amla,AR Patel,Iqbal Abdulla,0,1,0,0,0,0,0,1,1,,,
 8,2,Kings XI Punjab,Royal Challengers Bangalore,8,5,HM Amla,AR Patel,Iqbal Abdulla,0,0,0,0,0,0,1,0,1,,,
 8,2,Kings XI Punjab,Royal Challengers Bangalore,8,6,AR Patel,HM Amla,Iqbal Abdulla,0,0,0,0,0,0,6,0,6,,,
