@@ -3,7 +3,7 @@ const test1 = require('./testFirst.js');
 const test2 = require('./testSecond.js');
 const test3 = require('./testThird.js');
 const test4 = require('./testFourth.js');
-// const test5 = require('./testFifth.js');
+const test5 = require('./testFifth.js');
 const conn = require('./connection.js');
 const dbName = "test";
 
@@ -162,6 +162,111 @@ describe("getting the economy rate per bowler", function () {
             }
         ]
         const data = await test4.getEconomyRate("testMatches", "testDeliveries", conn);
+        expect(data).deep.equal(expectedValue);
+    })
+})
+
+
+describe("getting the wicket takers", function () {
+    it("wicket taken", async function () {
+        let expectedValue = [{
+                "_id": "TS Mills",
+                "total_wicket": 1
+            },
+            {
+                "_id": "Iqbal Abdulla",
+                "total_wicket": 0
+            },
+            {
+                "_id": "A Mishra",
+                "total_wicket": 3
+            },
+            {
+                "_id": "SR Watson",
+                "total_wicket": 0
+            },
+            {
+                "_id": "B Stanlake",
+                "total_wicket": 0
+            },
+            {
+                "_id": "MP Stoinis",
+                "total_wicket": 0
+            },
+            {
+                "_id": "Sandeep Sharma",
+                "total_wicket": 1
+            },
+            {
+                "_id": "VR Aaron",
+                "total_wicket": 2
+            },
+            {
+                "_id": "T Natarajan",
+                "total_wicket": 0
+            },
+            {
+                "_id": "YS Chahal",
+                "total_wicket": 1
+            },
+            {
+                "_id": "S Nadeem",
+                "total_wicket": 1
+            },
+            {
+                "_id": "P Negi",
+                "total_wicket": 0
+            },
+            {
+                "_id": "AR Patel",
+                "total_wicket": 1
+            },
+            {
+                "_id": "AB Dinda",
+                "total_wicket": 0
+            },
+            {
+                "_id": "Z Khan",
+                "total_wicket": 3
+            },
+            {
+                "_id": "DL Chahar",
+                "total_wicket": 1
+            },
+            {
+                "_id": "CH Morris",
+                "total_wicket": 1
+            },
+            {
+                "_id": "R Bhatia",
+                "total_wicket": 0
+            },
+            {
+                "_id": "BA Stokes",
+                "total_wicket": 0
+            },
+            {
+                "_id": "Imran Tahir",
+                "total_wicket": 1
+            },
+            {
+                "_id": "MM Sharma",
+                "total_wicket": 0
+            },
+            {
+                "_id": "A Zampa",
+                "total_wicket": 1
+            },
+            {
+                "_id": "CJ Anderson",
+                "total_wicket": 0
+            },
+            {
+                "_id": "PJ Cummins",
+                "total_wicket": 2
+            }
+        ]
+        const data = await test5.getTopWicket("testMatches", "testDeliveries", conn);
         expect(data).deep.equal(expectedValue);
     })
 })
