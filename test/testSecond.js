@@ -3,4 +3,3 @@ var conn = require('./connection.js'),
         matches = path.resolve('../data/test.csv'),
         deliveries = path.resolve('../data/test1.csv');
 
-function

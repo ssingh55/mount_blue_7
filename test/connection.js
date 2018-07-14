@@ -16,7 +16,7 @@ function testConnection(dbName) {
         })
     }).catch(function(e){})
 }
-testConnection(dbName);
+//testConnection(dbName);
 module.exports = {
     testConnection
 }
