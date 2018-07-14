@@ -39,10 +39,6 @@
             })
         })
     }
-
-
-
-
     // getMatchesPerYear("testMatches", ).then(function(data){
     //     console.log(data);
     // })
