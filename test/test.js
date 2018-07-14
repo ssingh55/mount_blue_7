@@ -270,3 +270,110 @@ describe("getting the wicket takers", function () {
         expect(data).deep.equal(expectedValue);
     })
 })
+
+
+describe("getting number of matches won by all the team", function () {
+    it("matches won", async function () {
+        var expectedValue = [{
+                "_id": "Rising Pune Supergiants",
+                "count": 1
+            },
+            {
+                "_id": "Mumbai Indians",
+                "count": 1
+            },
+            {
+                "_id": "Royal Challengers Bangalore",
+                "count": 1
+            },
+            {
+                "_id": "Kolkata Knight Riders",
+                "count": 1
+            },
+            {
+                "_id": "Delhi Daredevils",
+                "count": 1
+            },
+            {
+                "_id": "Sunrisers Hyderabad",
+                "count": 2
+            },
+            {
+                "_id": "Kings XI Punjab",
+                "count": 2
+            }
+        ]
+
+        const data = await test2.getWonMatchesPerTeam("testMatches", conn);
+        expect(data).deep.equal(expectedValue);
+    })
+
+    it("matches won", async function () {
+        var expectedValue = [{
+                "_id": {
+                    "season": 2015,
+                    "team": "Kings XI Punjab"
+                },
+                "count": 1
+            },
+            {
+                "_id": {
+                    "season": 2016,
+                    "team": "Mumbai Indians"
+                },
+                "count": 1
+            },
+            {
+                "_id": {
+                    "season": 2015,
+                    "team": "Delhi Daredevils"
+                },
+                "count": 1
+            },
+            {
+                "_id": {
+                    "season": 2017,
+                    "team": "Sunrisers Hyderabad"
+                },
+                "count": 1
+            },
+            {
+                "_id": {
+                    "season": 2017,
+                    "team": "Rising Pune Supergiants"
+                },
+                "count": 1
+            },
+            {
+                "_id": {
+                    "season": 2017,
+                    "team": "Royal Challengers Bangalore"
+                },
+                "count": 1
+            },
+            {
+                "_id": {
+                    "season": 2017,
+                    "team": "Kolkata Knight Riders"
+                },
+                "count": 1
+            },
+            {
+                "_id": {
+                    "season": 2016,
+                    "team": "Sunrisers Hyderabad"
+                },
+                "count": 1
+            },
+            {
+                "_id": {
+                    "season": 2017,
+                    "team": "Kings XI Punjab"
+                },
+                "count": 1
+            }
+        ]
+        const data = await test2.getWonMatchesPerTeamPerYear("testMatches", conn);
+        expect(data).deep.equal(expectedValue);
+    })
+})
