@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    
+    //1st chart
     fetch('/matchesPerYear')
         .then(function (response) {
             return response.json();
@@ -33,7 +35,6 @@ $(document).ready(function () {
                 name: ['matches per year'],
                 data: myJson.map(a => a.count)
             }];
-
             var json = {};
             json.chart = chart;
             json.title = title;
@@ -56,9 +57,11 @@ $(document).ready(function () {
             let teamWonData = {},
                 years = [],
                 seriesData = [];
+                console.log(myJson)
             for (let i = 0; i < myJson.length; i++) {
                 if (myJson[i].hasOwnProperty("_id")) {
                     let teamName = myJson[i]["_id"];
+                    // console.log(teamName)
                     if (teamName.length > 0) { //handling empty string
                         teamWonData[teamName] = {};
                         for (let yr = 2008; yr <= 2017; yr++) {
@@ -71,7 +74,6 @@ $(document).ready(function () {
                     }
                 }
             }
-
             for (team in teamWonData) {
                 seriesData.push({
                     name: team,
@@ -103,6 +105,7 @@ $(document).ready(function () {
                 }
             };
             var series = seriesData;
+            // console.log(series)
 
             var json = {};
             json.chart = chart;
@@ -120,6 +123,7 @@ $(document).ready(function () {
             return response.json();
         })
         .then(function (myJson) {
+            // console.log(myJson)
             var chart = {
                 type: 'column'
             };
@@ -147,7 +151,7 @@ $(document).ready(function () {
             };
             var series = [{
                 name: ['Extra Runs per team'],
-                data: myJson.map(a => a.runs)
+                data: myJson.map(a => a.count)
             }];
 
             var json = {};
@@ -193,7 +197,7 @@ $(document).ready(function () {
             };
             var series = [{
                 name: ['Economy Rate per player'],
-                data: myJson.map(a => a.economyRate)
+                data: myJson.map(a => a.economy)
             }];
 
             var json = {};
@@ -239,7 +243,7 @@ $(document).ready(function () {
             };
             var series = [{
                 name: ['runs per over'],
-                data: myJson.map(a => a.maxRuns)
+                data: myJson.map(a => a.total_wicket)
             }];
 
             var json = {};

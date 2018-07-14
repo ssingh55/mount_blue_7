@@ -1,15 +1,12 @@
     var conn = require('./connection.js'),
         path = require('path'),
-        matches = path.resolve('../data/test.csv'),
-        deliveries = path.resolve('../data/test1.csv');
-
-
-
+        matches = path.resolve('data/matches.csv'),
+        deliveries = path.resolve('data/deliveries.csv');
 
     function createDatabase(matches, deliveries, dbName) {
         let exec = require('child_process').execSync
-        let command1 = `mongoimport -d ${dbName} -c testMatches --type csv --headerline --file ${matches}`
-        let command2 = `mongoimport -d ${dbName} -c testDeliveries --type csv --headerline --file ${deliveries}`
+        let command1 = `mongoimport -d ${dbName} -c matches --type csv --headerline --file ${matches}`
+        let command2 = `mongoimport -d ${dbName} -c deliveries --type csv --headerline --file ${deliveries}`
         exec(command1, (err, stdout, stderr) => {
             // check for errors or if it was succesfuly
             if (err) return false;
@@ -20,7 +17,7 @@
         })
         return true;
     }
-
+    // createDatabase(matches,deliveries,"iplData")
     function getMatchesPerYear(matches, conn) {
         return new Promise((resolve, reject) => {
             console.log(matches);

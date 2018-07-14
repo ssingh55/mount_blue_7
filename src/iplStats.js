@@ -19,7 +19,7 @@ function testConnection(dbName) {
 //question1
 function getMatchesPerYear(matches) {
     return new Promise((resolve, reject) => {
-        testConnection("test").then(async function (db1, err) {
+        testConnection("iplData").then(async function (db1, err) {
             if (err) reject(err)
             var data = await db1.collection(matches)
             var match = await data.aggregate([{
@@ -39,7 +39,7 @@ function getMatchesPerYear(matches) {
 //question2
 function getWonMatchesPerTeamPerYear(matches) {
     return new Promise((resolve, reject) => {
-        testConnection("test").then(async function (db1) {
+        testConnection("iplData").then(async function (db1) {
             var data = await db1.collection(matches)
             var match = await data.aggregate([{
                 $group: {
@@ -59,10 +59,10 @@ function getWonMatchesPerTeamPerYear(matches) {
 }
 
 //question3
-function getExtraRunsPerTeam(matches,year) {
+function getExtraRunsPerTeam(matches,deliveries,year) {
     return new Promise((resolve, reject) => {
         // console.log(matches);
-        testConnection("test").then(async function (db1) {
+        testConnection("iplData").then(async function (db1) {
             var data = await db1.collection(matches)
             // console.log(data)
             var match = await data.aggregate([{
@@ -72,7 +72,7 @@ function getExtraRunsPerTeam(matches,year) {
                 },
                 {
                     $lookup: {
-                        from: "testDeliveries",
+                        from: deliveries,
                         localField: "id",
                         foreignField: "match_id",
                         as: "balls"
@@ -100,7 +100,7 @@ function getExtraRunsPerTeam(matches,year) {
 //question4
 function getEconomyRate(matches, deliveries,year) {
     return new Promise((resolve, reject) => {
-        testConnection("test").then(async function (db1) {
+        testConnection("iplData").then(async function (db1) {
             var data = await db1.collection(matches)
             var economy = await data.aggregate([{
                     "$match": {
@@ -109,7 +109,7 @@ function getEconomyRate(matches, deliveries,year) {
                 },
                 {
                     "$lookup": {
-                        from: "testDeliveries",
+                        from: deliveries,
                         localField: "id",
                         foreignField: "match_id",
                         as: "balls"
@@ -172,7 +172,7 @@ function getEconomyRate(matches, deliveries,year) {
 //question5
 function getTopWicket(matches, deliveries,year) {
     return new Promise((resolve, reject) => {
-        testConnection("test").then(async function (db1) {
+        testConnection("iplData").then(async function (db1) {
             var data = await db1.collection(matches)
             var bowlerWicket = await data.aggregate([{
                     "$match": {
@@ -181,7 +181,7 @@ function getTopWicket(matches, deliveries,year) {
                 },
                 {
                     "$lookup": {
-                        from: "testDeliveries",
+                        from: deliveries,
                         localField: "id",
                         foreignField: "match_id",
                         as: "balls"
@@ -227,4 +227,12 @@ function getTopWicket(matches, deliveries,year) {
             resolve(bowlerWicket)
         })
     }).catch(function (e) {})
+}
+
+module.exports ={
+    getMatchesPerYear,
+    getWonMatchesPerTeamPerYear,
+    getExtraRunsPerTeam,
+    getEconomyRate,
+    getTopWicket
 }
