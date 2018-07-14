@@ -32,7 +32,7 @@ describe("number of matches played per year of all the years", function () {
                 "count": 5
             }
         ];
-        const data = await test1.matchesPerYear("testMatches", test1.testConnection(dbName));
+        const data = await test1.getMatchesPerYear("testMatches", test1.testConnection(dbName));
         expect(data).deep.equal(expectedValue);
     })
 })

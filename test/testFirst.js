@@ -21,7 +21,7 @@
         return true;
     }
 
-    function matchesPerYear(matches, db) {
+    function getMatchesPerYear(matches, db) {
         return new Promise((resolve, reject) => {
             console.log(matches);
             conn.testConnection("test").then(async function (db1) {
@@ -43,10 +43,10 @@
 
 
 
-    // matchesPerYear("testMatches", 1).then(function(data){
+    // getMatchesPerYear("testMatches", 1).then(function(data){
     //     console.log(data);
     // })
     // console.log(testConnection());
     module.exports = {
-        matchesPerYear
+        getMatchesPerYear
     }
