@@ -1,5 +1,6 @@
 const MongoClient = require('mongodb').MongoClient,
-    url = 'mongodb://127.0.0.1:27017'
+    url = 'mongodb://127.0.0.1:27017',
+    round = require('mongo-round')
 
 //for connecting to the database
 function testConnection(dbName) {
@@ -37,6 +38,58 @@ function getMatchesPerYear(matches) {
 }
 
 //question2
+const getWonMatchesPerTeamPerYear = async (matches) => {
+    return new Promise((resolve, reject) => {
+        testConnection("iplData").then(async function (db1, err) {
+            const wonMatchesPerYear = [{
+                    $group: {
+                        _id: {
+                            seasons: '$season',
+                            teams: '$winner'
+                        },
+                        total: {
+                            $sum: 1
+                        }
+                    }
+                },
+                {
+                    $project: {
+                        season: '$_id.seasons',
+                        team: '$_id.teams',
+                        total: '$total',
+                        _id: 0
+                    }
+                },
+                {
+                    $group: {
+                        _id: '$team',
+                        teamData: {
+                            $push: {
+                                noOfMatches: "$total",
+                                year: "$season"
+                            }
+                        }
+                    }
+                }
+            ]
+        
+        db1.collection(matches).aggregate(wonMatchesPerYear).toArray(function (err, matchesData) {
+            if (err) {
+                console.log()
+                reject(err);
+            }
+            resolve(matchesData);
+        });
+    })
+
+
+    })
+}
+
+
+
+
+/*
 function getWonMatchesPerTeamPerYear(matches) {
     return new Promise((resolve, reject) => {
         testConnection("iplData").then(async function (db1) {
@@ -57,9 +110,11 @@ function getWonMatchesPerTeamPerYear(matches) {
         })
     }).catch(function (e) {})
 }
+*/
+
 
 //question3
-function getExtraRunsPerTeam(matches,deliveries,year) {
+function getExtraRunsPerTeam(matches, deliveries, year) {
     return new Promise((resolve, reject) => {
         // console.log(matches);
         testConnection("iplData").then(async function (db1) {
@@ -98,7 +153,7 @@ function getExtraRunsPerTeam(matches,deliveries,year) {
 }
 
 //question4
-function getEconomyRate(matches, deliveries,year) {
+function getEconomyRate(matches, deliveries, year) {
     return new Promise((resolve, reject) => {
         testConnection("iplData").then(async function (db1) {
             var data = await db1.collection(matches)
@@ -151,16 +206,25 @@ function getEconomyRate(matches, deliveries,year) {
                 {
                     "$project": {
                         "_id": 1,
-                        "economy": {
+                        "economy": round({
                             "$multiply": [{
                                 "$divide": ["$total_runs", {
                                     "$subtract": ["$total_ball", "$extra_ball"]
                                 }]
                             }, 6]
-                        }
+                        }, 2)
 
                     }
+                },
+                {
+                    $sort: {
+                        economy: 1
+                    }
+                },
+                {
+                    $limit: 10
                 }
+
             ]).toArray()
             // console.log(economy)
             resolve(economy)
@@ -170,7 +234,7 @@ function getEconomyRate(matches, deliveries,year) {
 }
 
 //question5
-function getTopWicket(matches, deliveries,year) {
+function getTopWicket(matches, deliveries, year) {
     return new Promise((resolve, reject) => {
         testConnection("iplData").then(async function (db1) {
             var data = await db1.collection(matches)
@@ -221,6 +285,14 @@ function getTopWicket(matches, deliveries,year) {
                             }
                         }
                     }
+                },
+                {
+                    $sort: {
+                        total_wicket: -1
+                    }
+                },
+                {
+                    $limit: 10
                 }
             ]).toArray();
             // console.log(bowlerWicket)
@@ -229,7 +301,7 @@ function getTopWicket(matches, deliveries,year) {
     }).catch(function (e) {})
 }
 
-module.exports ={
+module.exports = {
     getMatchesPerYear,
     getWonMatchesPerTeamPerYear,
     getExtraRunsPerTeam,

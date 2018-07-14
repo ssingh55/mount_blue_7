@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "express": "^4.16.3",
+    "mongo-round": "^1.0.0",
     "mongodb": "^3.1.1"
   }
 }

@@ -23,7 +23,7 @@ app.get('/economyRate', async (req, res) => {
     const matchesData = await stats.getEconomyRate('matches', 'deliveries', 2015);
     res.send(matchesData);
 })
-app.get('/maxRunsPerOver', async (req, res) => {
+app.get('/topWicket', async (req, res) => {
     const matchesData = await stats.getTopWicket('matches', 'deliveries', 2016);
     res.send(matchesData);
 })

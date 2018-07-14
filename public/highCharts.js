@@ -211,7 +211,7 @@ $(document).ready(function () {
             $('#container4').highcharts(json);
         });
     //5 th chart
-    fetch('/maxRunsPerOver')
+    fetch('/topWicket')
         .then(function (response) {
             return response.json();
         })
@@ -220,7 +220,7 @@ $(document).ready(function () {
                 type: 'column'
             };
             var title = {
-                text: 'Max Runs Per Over'
+                text: 'Highest wicket taker'
             };
             var subtitle = {
                 text: 'Source: Ipl  (Kaggle)'
@@ -232,7 +232,7 @@ $(document).ready(function () {
             var yAxis = {
                 min: 0,
                 title: {
-                    text: 'runs'
+                    text: 'wicket'
                 }
             };
             var plotOptions = {
@@ -242,7 +242,7 @@ $(document).ready(function () {
                 }
             };
             var series = [{
-                name: ['runs per over'],
+                name: ['wicket taken'],
                 data: myJson.map(a => a.total_wicket)
             }];
 
