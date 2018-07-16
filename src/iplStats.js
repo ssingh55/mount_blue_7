@@ -42,6 +42,7 @@ function getMatchesPerYear(matches) {
 const getWonMatchesPerTeamPerYear = async (matches) => {
     return new Promise((resolve, reject) => {
         testConnection("iplData").then(async function (db1, err) {
+            if (err) reject(err)
             const wonMatchesPerYear = [{
                     $group: {
                         _id: {
@@ -76,7 +77,6 @@ const getWonMatchesPerTeamPerYear = async (matches) => {
 
             db1.collection(matches).aggregate(wonMatchesPerYear).toArray(function (err, matchesData) {
                 if (err) {
-                    console.log()
                     reject(err);
                 }
                 resolve(matchesData);
@@ -89,7 +89,8 @@ const getWonMatchesPerTeamPerYear = async (matches) => {
 function getExtraRunsPerTeam(matches, deliveries, year) {
     return new Promise((resolve, reject) => {
         // console.log(matches);
-        testConnection("iplData").then(async function (db1) {
+        testConnection("iplData").then(async function (db1,err) {
+            if (err) reject(err)
             var data = await db1.collection(matches)
             // console.log(data)
             var match = await data.aggregate([{
@@ -127,7 +128,8 @@ function getExtraRunsPerTeam(matches, deliveries, year) {
 //question4
 function getEconomyRate(matches, deliveries, year) {
     return new Promise((resolve, reject) => {
-        testConnection("iplData").then(async function (db1) {
+        testConnection("iplData").then(async function (db1,err) {
+            if (err) reject(err)
             var data = await db1.collection(matches)
             var economy = await data.aggregate([{
                     "$match": {
@@ -200,7 +202,6 @@ function getEconomyRate(matches, deliveries, year) {
             ]).toArray()
             // console.log(economy)
             resolve(economy)
-            // ])
         })
     }).catch(function (e) {})
 }
@@ -208,7 +209,8 @@ function getEconomyRate(matches, deliveries, year) {
 //question5
 function getTopWicket(matches, deliveries, year) {
     return new Promise((resolve, reject) => {
-        testConnection("iplData").then(async function (db1) {
+        testConnection("iplData").then(async function (db1,err) {
+            if (err) reject(err)
             var data = await db1.collection(matches)
             var bowlerWicket = await data.aggregate([{
                     "$match": {

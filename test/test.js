@@ -1,16 +1,13 @@
 const expect = require('chai').expect;
-const test1 = require('./testFirst.js');
-const test2 = require('./testSecond.js');
-const test3 = require('./testThird.js');
-const test4 = require('./testFourth.js');
-const test5 = require('./testFifth.js');
+const path = require('path');
+const stats = require('../src/iplStats.js')
 const conn = require('./connection.js');
 const dbName = "test";
 
 
 describe("testConnection", function () {
     xit("should return connected", async function () {
-        const data = await test1.testConnection(dbName);
+        const data = await stats.testConnection(dbName);
         expect(data).equal(true);
     })
     xit('creating database', function () {
@@ -33,43 +30,32 @@ describe("getMatchesPerYear", function () {
                 "count": 5
             }
         ];
-        const data = await test1.getMatchesPerYear("testMatches", conn);
+        const data = await stats.getMatchesPerYear("testMatches");
         expect(data).deep.equal(expectedValue);
     })
 })
 
-describe("getExtraRuns", function () {
+describe("getExtraRunsPerTeam", function () {
     it("should return getting the extra runs conceded per team", async function () {
         let expectedValue = [{
-                "_id": "Kings XI Punjab",
-                "count": 1
-            },
-            {
-                "_id": "Gujarat Lions",
-                "count": 1
-            },
-            {
-                "_id": "Sunrisers Hyderabad",
-                "count": 1
-            },
-            {
-                "_id": "Rising Pune Supergiant",
-                "count": 5
-            },
-            {
                 "_id": "Kolkata Knight Riders",
-                "count": 1
-            },
-            {
-                "_id": "Royal Challengers Bangalore",
-                "count": 4
+                "count": 12
             },
             {
                 "_id": "Mumbai Indians",
+                "count": 11
+            },
+            {
+                "_id": "Gujarat Lions",
+                "count": 3
+            },
+            {
+                "_id": "Sunrisers Hyderabad",
                 "count": 3
             }
+
         ]
-        const data = await test3.getExtraRuns("testDeliveries", conn);
+        const data = await stats.getExtraRunsPerTeam("testMatches", "testDeliveries", 2016);
         expect(data).deep.equal(expectedValue);
     })
 })
@@ -77,155 +63,162 @@ describe("getExtraRuns", function () {
 describe("getEconomyRate", function () {
     it("should return getting the economy rate per bowler", async function () {
         let expectedValue = [{
-                "_id": "Kuldeep Yadav",
-                "economy": 17
+                "_id": "Rashid Khan",
+                "economy": 4.75
             },
             {
-                "_id": "TG Southee",
-                "economy": 15
+                "_id": "SP Narine",
+                "economy": 5.5
             },
             {
-                "_id": "TS Mills",
-                "economy": 1
+                "_id": "B Kumar",
+                "economy": 5.75
+            },
+            {
+                "_id": "KH Pandya",
+                "economy": 6
+            },
+            {
+                "_id": "Bipul Sharma",
+                "economy": 6.75
             },
             {
                 "_id": "A Nehra",
-                "economy": 3
+                "economy": 7
+            },
+            {
+                "_id": "Harbhajan Singh",
+                "economy": 7.5
             },
             {
                 "_id": "P Kumar",
-                "economy": 10
-            },
-            {
-                "_id": "TA Boult",
-                "economy": 5
-            },
-            {
-                "_id": "STR Binny",
-                "economy": 2
-            },
-            {
-                "_id": "A Zampa",
                 "economy": 8
+            },
+            {
+                "_id": "DS Kulkarni",
+                "economy": 8.5
+            },
+            {
+                "_id": "Kuldeep Yadav",
+                "economy": 8.75
             }
         ]
-        const data = await test4.getEconomyRate("testMatches", "testEconomy", conn);
+        const data = await stats.getEconomyRate("testMatches", "testDeliveries", 2016);
         expect(data).deep.equal(expectedValue);
     })
 })
 
 describe("getTopWicket", function () {
     it("should return getting the wicket takers", async function () {
-        let expectedValue = [
-
+        let expectedValue = [{
+                "_id": "Imran Tahir",
+                "total_wicket": 4
+            },
+            {
+                "_id": "CH Morris",
+                "total_wicket": 3
+            },
+            {
+                "_id": "Iqbal Abdulla",
+                "total_wicket": 2
+            },
+            {
+                "_id": "TS Mills",
+                "total_wicket": 2
+            },
+            {
+                "_id": "Rashid Khan",
+                "total_wicket": 2
+            },
+            {
+                "_id": "B Kumar",
+                "total_wicket": 2
+            },
+            {
+                "_id": "B Stanlake",
+                "total_wicket": 2
+            },
+            {
+                "_id": "A Nehra",
+                "total_wicket": 2
+            },
+            {
+                "_id": "Sandeep Sharma",
+                "total_wicket": 2
+            },
+            {
+                "_id": "YS Chahal",
+                "total_wicket": 2
+            }
         ]
-        const data = await test5.getTopWicket("testWicket", conn);
+        const data = await stats.getTopWicket("testMatches", "testDeliveries", 2017);
         expect(data).deep.equal(expectedValue);
     })
 })
 
 describe("getWonMatchesPerTeamPerYear", function () {
-    it("should return getting number of matches won by all the team", async function () {
+    it("should return matches won", async function () {
         var expectedValue = [{
-                "_id": "Rising Pune Supergiants",
-                "count": 1
-            },
-            {
                 "_id": "Mumbai Indians",
-                "count": 1
-            },
-            {
-                "_id": "Royal Challengers Bangalore",
-                "count": 1
+                "teamData": [{
+                    "noOfMatches": 1,
+                    "year": 2016
+                }]
             },
             {
                 "_id": "Kolkata Knight Riders",
-                "count": 1
+                "teamData": [{
+                    "noOfMatches": 1,
+                    "year": 2017
+                }]
+            },
+            {
+                "_id": "Royal Challengers Bangalore",
+                "teamData": [{
+                    "noOfMatches": 1,
+                    "year": 2017
+                }]
+            },
+            {
+                "_id": "Rising Pune Supergiants",
+                "teamData": [{
+                    "noOfMatches": 1,
+                    "year": 2017
+                }]
             },
             {
                 "_id": "Sunrisers Hyderabad",
-                "count": 2
-            },
-            {
-                "_id": "Delhi Daredevils",
-                "count": 1
+                "teamData": [{
+                        "noOfMatches": 1,
+                        "year": 2017
+                    },
+                    {
+                        "noOfMatches": 1,
+                        "year": 2016
+                    }
+                ]
             },
             {
                 "_id": "Kings XI Punjab",
-                "count": 2
+                "teamData": [{
+                        "noOfMatches": 1,
+                        "year": 2015
+                    },
+                    {
+                        "noOfMatches": 1,
+                        "year": 2017
+                    }
+                ]
+            },
+            {
+                "_id": "Delhi Daredevils",
+                "teamData": [{
+                    "noOfMatches": 1,
+                    "year": 2015
+                }]
             }
         ]
-
-        const data = await test2.getWonMatchesPerTeam("testMatches", conn);
-        expect(data).deep.equal(expectedValue);
-    })
-
-    it("should return matches won", async function () {
-        var expectedValue = [{
-                "_id": {
-                    "season": 2015,
-                    "team": "Kings XI Punjab"
-                },
-                "count": 1
-            },
-            {
-                "_id": {
-                    "season": 2017,
-                    "team": "Sunrisers Hyderabad"
-                },
-                "count": 1
-            },
-            {
-                "_id": {
-                    "season": 2015,
-                    "team": "Delhi Daredevils"
-                },
-                "count": 1
-            },
-            {
-                "_id": {
-                    "season": 2016,
-                    "team": "Mumbai Indians"
-                },
-                "count": 1
-            },
-            {
-                "_id": {
-                    "season": 2017,
-                    "team": "Rising Pune Supergiants"
-                },
-                "count": 1
-            },
-            {
-                "_id": {
-                    "season": 2016,
-                    "team": "Sunrisers Hyderabad"
-                },
-                "count": 1
-            },
-            {
-                "_id": {
-                    "season": 2017,
-                    "team": "Kings XI Punjab"
-                },
-                "count": 1
-            },
-            {
-                "_id": {
-                    "season": 2017,
-                    "team": "Kolkata Knight Riders"
-                },
-                "count": 1
-            },
-            {
-                "_id": {
-                    "season": 2017,
-                    "team": "Royal Challengers Bangalore"
-                },
-                "count": 1
-            }
-        ]
-        const data = await test2.getWonMatchesPerTeamPerYear("testMatches", conn);
+        const data = await stats.getWonMatchesPerTeamPerYear("testMatches");
         expect(data).deep.equal(expectedValue);
     })
 })
