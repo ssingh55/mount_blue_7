@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    
+
     //1st chart
     fetch('/matchesPerYear')
         .then(function (response) {
@@ -46,7 +46,6 @@ $(document).ready(function () {
             $('#container1').highcharts(json);
         });
 
-
     //2nd chart
     fetch('/matchesWonPerYear')
         .then(function (response) {
@@ -57,7 +56,7 @@ $(document).ready(function () {
             let teamWonData = {},
                 years = [],
                 seriesData = [];
-                console.log(myJson)
+            // console.log(myJson)
             for (let i = 0; i < myJson.length; i++) {
                 if (myJson[i].hasOwnProperty("_id")) {
                     let teamName = myJson[i]["_id"];
@@ -106,7 +105,6 @@ $(document).ready(function () {
             };
             var series = seriesData;
             // console.log(series)
-
             var json = {};
             json.chart = chart;
             json.title = title;
@@ -117,6 +115,7 @@ $(document).ready(function () {
             json.plotOptions = plotOptions;
             $('#container2').highcharts(json);
         });
+
     //3rd chart
     fetch('/extraRuns')
         .then(function (response) {
@@ -164,6 +163,7 @@ $(document).ready(function () {
             json.plotOptions = plotOptions;
             $('#container3').highcharts(json);
         });
+
     //4 th chart
     fetch('/economyRate')
         .then(function (response) {
@@ -199,7 +199,6 @@ $(document).ready(function () {
                 name: ['Economy Rate per player'],
                 data: myJson.map(a => a.economy)
             }];
-
             var json = {};
             json.chart = chart;
             json.title = title;
@@ -210,6 +209,7 @@ $(document).ready(function () {
             json.plotOptions = plotOptions;
             $('#container4').highcharts(json);
         });
+
     //5 th chart
     fetch('/topWicket')
         .then(function (response) {
@@ -245,7 +245,6 @@ $(document).ready(function () {
                 name: ['wicket taken'],
                 data: myJson.map(a => a.total_wicket)
             }];
-
             var json = {};
             json.chart = chart;
             json.title = title;
