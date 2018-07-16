@@ -9,6 +9,7 @@ function testConnection(dbName) {
             useNewUrlParser: true
         }, function (err, conn) {
             if (err) {
+                console.log("mongo db service not started")
                 reject(err);
             }
             var dbConnection = conn.db(dbName);
@@ -72,46 +73,17 @@ const getWonMatchesPerTeamPerYear = async (matches) => {
                     }
                 }
             ]
-        
-        db1.collection(matches).aggregate(wonMatchesPerYear).toArray(function (err, matchesData) {
-            if (err) {
-                console.log()
-                reject(err);
-            }
-            resolve(matchesData);
-        });
-    })
 
-
-    })
-}
-
-
-
-
-/*
-function getWonMatchesPerTeamPerYear(matches) {
-    return new Promise((resolve, reject) => {
-        testConnection("iplData").then(async function (db1) {
-            var data = await db1.collection(matches)
-            var match = await data.aggregate([{
-                $group: {
-                    "_id": {
-                        "season": "$season",
-                        "team": "$winner"
-                    },
-                    count: {
-                        "$sum": 1
-                    }
+            db1.collection(matches).aggregate(wonMatchesPerYear).toArray(function (err, matchesData) {
+                if (err) {
+                    console.log()
+                    reject(err);
                 }
-            }]).toArray()
-            // console.log(match)
-            resolve(match)
+                resolve(matchesData);
+            });
         })
-    }).catch(function (e) {})
+    })
 }
-*/
-
 
 //question3
 function getExtraRunsPerTeam(matches, deliveries, year) {

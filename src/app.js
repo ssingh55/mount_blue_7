@@ -1,9 +1,9 @@
 const express = require('express');
 const path = require('path');
-const stats = require("./iplStats");
+const stats = require(path.resolve("iplStats"));
 const app = express();
 
-app.use(express.static(path.resolve('public')));
+app.use(express.static(path.resolve('../public')));
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 })
